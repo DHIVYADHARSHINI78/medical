@@ -1,13 +1,30 @@
+
+
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from './supabaseClient';
 
 const Login: React.FC = () => {
   const [role, setRole] = useState('patient');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    navigate(`/${role}`);
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      alert('Login failed: ' + error.message);
+    } else {
+      localStorage.setItem('userRole', role);
+      navigate(`/${role}`);
+    }
   };
 
   return (
@@ -15,8 +32,8 @@ const Login: React.FC = () => {
       <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input type="email" placeholder="Email" className="w-full p-2 border rounded" required />
-          <input type="password" placeholder="Password" className="w-full p-2 border rounded" required />
+          <input type="email" placeholder="Email" className="w-full p-2 border rounded" value={email} onChange={e => setEmail(e.target.value)} required />
+          <input type="password" placeholder="Password" className="w-full p-2 border rounded" value={password} onChange={e => setPassword(e.target.value)} required />
           <select value={role} onChange={e => setRole(e.target.value)} className="w-full p-2 border rounded">
             <option value="patient">Patient</option>
             <option value="caretaker">Caretaker</option>
@@ -32,3 +49,6 @@ const Login: React.FC = () => {
 };
 
 export default Login;
+
+
+
