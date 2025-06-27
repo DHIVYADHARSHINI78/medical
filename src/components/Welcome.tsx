@@ -25,14 +25,13 @@ const Welcome: React.FC = () => {
           </div>
           <button onClick={() => navigate('/login')} className="bg-blue-600 text-white py-2 px-4 rounded-lg mt-auto hover:bg-blue-700">Continue as Patient</button>
         </div>
-        <div className="bg-white shadow-lg rounded-2xl p-6 flex flex-col justify-between hover:scale-105 transition-transform duration-300">
-          <div>
+        <div className="bg-white shadow-lg rounded-2xl p-6 flex flex-col justify-between   hover:scale-105 transition-transform duration-300">
+          <div mt-6>
             <h2 className="text-2xl font-semibold text-green-800 mb-2">I'm a Caretaker</h2>
             <ul className="list-disc list-inside text-gray-600 mb-6">
               <li>Monitor medication compliance</li>
               <li>Set up notification preferences</li>
-              <li>View detailed reports</li>
-              <li>Receive email alerts</li>
+            
             </ul>
           </div>
           <button onClick={() => navigate('/login')} className="bg-green-600 text-white py-2 px-4 rounded-lg mt-auto hover:bg-green-700">Continue as Caretaker</button>

@@ -12,10 +12,15 @@ const CaretakerDashboard: React.FC = () => {
     <div className="min-h-screen p-6 bg-green-50">
       <h1 className="text-3xl font-bold text-green-800 mb-6">Caretaker Dashboard</h1>
       <AddMedicationForm addMedication={addMedication} />
-      <MedicationList role="caretaker" meds={meds} editMedication={editMedication} deleteMedication={deleteMedication} />
+      <MedicationList
+        role="caretaker"
+        meds={meds}
+        editMedication={editMedication}
+        deleteMedication={deleteMedication}
+        showProof={true}
+      />
     </div>
   );
 };
 
-export default CaretakerDashboard
-
+export default CaretakerDashboard;
