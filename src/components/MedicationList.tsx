@@ -1,5 +1,7 @@
 
+
 import React, { useState } from 'react';
+import EditMedicationModal from './EditMedicationModal';
 
 interface Medication {
   id: number;
@@ -28,15 +30,7 @@ const MedicationList: React.FC<Props> = ({
 }) => {
   const [modalImage, setModalImage] = useState<string | null>(null);
   const [modalTimestamp, setModalTimestamp] = useState<string | null>(null);
-
-  const handleEdit = (id: number) => {
-    const name = prompt('Edit medication name:');
-    const dosage = prompt('Edit dosage:');
-    const frequency = prompt('Edit frequency:');
-    if (name && dosage && frequency && editMedication) {
-      editMedication(id, { name, dosage, frequency });
-    }
-  };
+  const [editingMed, setEditingMed] = useState<Medication | null>(null);
 
   return (
     <div className="bg-white p-6 rounded-xl shadow">
@@ -83,13 +77,17 @@ const MedicationList: React.FC<Props> = ({
                     {role === 'caretaker' && (
                       <>
                         <button
-                          onClick={() => handleEdit(med.id)}
+                          onClick={() => setEditingMed(med)}
                           className="px-3 py-1 rounded bg-yellow-500 text-white"
                         >
                           Edit
                         </button>
                         <button
-                          onClick={() => deleteMedication && deleteMedication(med.id)}
+                          onClick={() => {
+                            if (window.confirm("Are you sure you want to delete this medication?")) {
+                              deleteMedication && deleteMedication(med.id);
+                            }
+                          }}
                           className="px-3 py-1 rounded bg-red-600 text-white"
                         >
                           Delete
@@ -120,6 +118,16 @@ const MedicationList: React.FC<Props> = ({
             </button>
           </div>
         </div>
+      )}
+
+      {editingMed && (
+        <EditMedicationModal
+          medication={editingMed}
+          onClose={() => setEditingMed(null)}
+          onSave={(updatedMed) => {
+            if (editMedication) editMedication(updatedMed.id, updatedMed);
+          }}
+        />
       )}
     </div>
   );
